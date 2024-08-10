@@ -52,19 +52,29 @@ public class SchemaConfig {
   }
   
   //=========================================================================================================
+  // SCHEMA 3 DATA SOURCE
+  //=========================================================================================================
+  @Bean
+  @ConfigurationProperties("schema3.spring.datasource")
+  public DataSource schema3DataSource() {
+      return DataSourceBuilder.create().type(HikariDataSource.class).build();
+  }
+  
+  //=========================================================================================================
   // MULTI ROUTING DATA SOURCE
   //=========================================================================================================
   @Bean
-  public DataSource multiRoutingDataSource() {
+  public MultiRoutingDataSource multiRoutingDataSource() {
   
       Map<Object, Object> targetDataSources = new HashMap<>();
                           targetDataSources.put(1, schema1DataSource());
                           targetDataSources.put(2, schema2DataSource());
+                          //targetDataSources.put(3, schema3DataSource());
       
       MultiRoutingDataSource multiRoutingDataSource = new MultiRoutingDataSource();
                              multiRoutingDataSource.setDefaultTargetDataSource(schema1DataSource());
                              multiRoutingDataSource.setTargetDataSources(targetDataSources);
-      
+
       return multiRoutingDataSource;
   }
   
