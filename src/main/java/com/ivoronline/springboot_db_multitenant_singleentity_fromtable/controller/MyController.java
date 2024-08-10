@@ -3,6 +3,7 @@ package com.ivoronline.springboot_db_multitenant_singleentity_fromtable.controll
 import com.ivoronline.springboot_db_multitenant_singleentity_fromtable.master.entity.Tenant;
 import com.ivoronline.springboot_db_multitenant_singleentity_fromtable.master.repository.TenantRepository;
 import com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.config.MultiRoutingDataSource;
+import com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.config.SchemaConfig;
 import com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.config.SchemaContext;
 import com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.entity.Person;
 import com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.repository.PersonRepository;
@@ -22,7 +23,7 @@ public class MyController {
   //PROPERTIES
   @Autowired PersonRepository personRepository;
   @Autowired TenantRepository tenantRepository;
-  @Autowired @Qualifier("multiRoutingDataSource") MultiRoutingDataSource multiRoutingDataSource;
+  //@Autowired @Qualifier("multiRoutingDataSource") MultiRoutingDataSource multiRoutingDataSource;
   
   //=========================================================================================================
   // SET
@@ -30,10 +31,54 @@ public class MyController {
   @ResponseBody
   @GetMapping("/Set")
   public String set() {
+    
+    SchemaConfig.targetDataSources.put(3, dataSource3());
+    SchemaConfig.multiRoutingDataSource.afterPropertiesSet();
+  
+  /*
+    Map<Object, DataSource> bla = multiRoutingDataSource.getResolvedDataSources();
+    DataSource dataSource = dataSource3();
+    bla.put(3, dataSource);
+    multiRoutingDataSource.afterPropertiesSet();
+   */
+  
+    /*
     Map<Object, Object> targetDataSources = new HashMap<>();
+                        targetDataSources.put(1, dataSource1());
+                        targetDataSources.put(2, dataSource2());
                         targetDataSources.put(3, dataSource3());
+                        multiRoutingDataSource.setDefaultTargetDataSource(dataSource1());
     multiRoutingDataSource.setTargetDataSources(targetDataSources);
+    multiRoutingDataSource.afterPropertiesSet();
+    
+     */
+    
     return "OK";
+    
+  }
+  
+  //=========================================================================================================
+  // DATA SOURCE
+  //=========================================================================================================
+  public DataSource dataSource1() {
+    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+                            dataSource.setUrl            ("jdbc:oracle:thin:@localhost:1522/orcl");
+                            dataSource.setUsername       ("SCHEMA1");
+                            dataSource.setPassword       ("LETMEIN");
+                          //dataSource.setDriverClassName("oracle.jdbc.OracleDriver");
+    return dataSource;
+  }
+  
+  //=========================================================================================================
+  // DATA SOURCE
+  //=========================================================================================================
+  public DataSource dataSource2() {
+    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+                            dataSource.setUrl            ("jdbc:oracle:thin:@localhost:1522/orcl");
+                            dataSource.setUsername       ("SCHEMA2");
+                            dataSource.setPassword       ("LETMEIN");
+                          //dataSource.setDriverClassName("oracle.jdbc.OracleDriver");
+    return dataSource;
   }
   
   //=========================================================================================================

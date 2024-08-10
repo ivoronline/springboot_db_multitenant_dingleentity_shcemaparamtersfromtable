@@ -1,6 +1,8 @@
 package com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.config;
 
+import com.ivoronline.springboot_db_multitenant_singleentity_fromtable.master.repository.TenantRepository;
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +30,9 @@ import java.util.Properties;
 public class SchemaConfig {
 
   //PROPERTIES
-  private final String ENTITY_PACKAGE = "com.ivoronline.springboot_db_multitenant_dingleentity_shcemaparamtersfromtable.schema.entity";
+  public static Map<Object, Object> targetDataSources = new HashMap<>();
+  public static MultiRoutingDataSource multiRoutingDataSource = new MultiRoutingDataSource();
+  private final String ENTITY_PACKAGE = "com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.entity";
   
   //=========================================================================================================
   // SCHEMA 1 DATA SOURCE
@@ -63,13 +67,12 @@ public class SchemaConfig {
   //=========================================================================================================
   @Bean
   public MultiRoutingDataSource multiRoutingDataSource() {
-  
-      Map<Object, Object> targetDataSources = new HashMap<>();
-                          targetDataSources.put(1, schema1DataSource());
-                          targetDataSources.put(2, schema2DataSource());
-                          //targetDataSources.put(3, schema3DataSource());
       
-      MultiRoutingDataSource multiRoutingDataSource = new MultiRoutingDataSource();
+      targetDataSources.put(1, schema1DataSource());
+      targetDataSources.put(2, schema2DataSource());
+      //targetDataSources.put(3, schema3DataSource());
+      
+      
                              multiRoutingDataSource.setDefaultTargetDataSource(schema1DataSource());
                              multiRoutingDataSource.setTargetDataSources(targetDataSources);
 

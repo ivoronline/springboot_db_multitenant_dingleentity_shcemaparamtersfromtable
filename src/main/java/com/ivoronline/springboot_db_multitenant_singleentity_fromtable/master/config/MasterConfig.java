@@ -22,7 +22,7 @@ import javax.sql.DataSource;
 public class MasterConfig {
 
   //PROPERTIES
-  private final String ENTITY_PACKAGE = "com.ivoronline.springboot_db_multitenant_dingleentity_shcemaparamtersfromtable.master.entity";
+  private final String ENTITY_PACKAGE = "com.ivoronline.springboot_db_multitenant_singleentity_fromtable.master.entity";
 
   //=========================================================================================================
   // DATA SOURCE
