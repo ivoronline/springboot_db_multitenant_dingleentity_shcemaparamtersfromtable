@@ -1,17 +1,15 @@
-package com.ivoronline.springboot_db_multitenant_singleentity_fromtable.filter;
+package com.ivoronline.filter;
 
-import com.ivoronline.springboot_db_multitenant_singleentity_fromtable.master.repository.TenantRepository;
-import com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.config.SchemaConfig;
+import com.ivoronline.master.repository.TenantRepository;
+import com.ivoronline.schema.config.SchemaConfig;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import javax.sql.DataSource;
 import java.io.IOException;
 

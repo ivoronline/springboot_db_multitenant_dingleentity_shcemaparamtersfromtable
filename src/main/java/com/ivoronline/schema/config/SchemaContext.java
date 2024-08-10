@@ -1,4 +1,4 @@
-package com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.config;
+package com.ivoronline.schema.config;
 
 public class SchemaContext {
 

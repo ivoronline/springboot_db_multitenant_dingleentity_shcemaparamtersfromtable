@@ -1,4 +1,4 @@
-package com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.entity;
+package com.ivoronline.master.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Person {
+public class Tenant {
 
   //PROPERTIES
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   public Integer Id;
   public String  name;
-  public Integer age;
+  public String  password;
 
 }

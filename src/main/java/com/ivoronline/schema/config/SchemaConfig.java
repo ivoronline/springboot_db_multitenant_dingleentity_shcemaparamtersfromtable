@@ -1,8 +1,6 @@
-package com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.config;
+package com.ivoronline.schema.config;
 
-import com.ivoronline.springboot_db_multitenant_singleentity_fromtable.master.repository.TenantRepository;
 import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +21,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-  basePackages            = "com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.repository",
+  basePackages            = "com.ivoronline.schema.repository",
   entityManagerFactoryRef = "multiEntityManager",
   transactionManagerRef   = "multiTransactionManager"
 )
@@ -32,7 +30,7 @@ public class SchemaConfig {
   //PROPERTIES
   public static Map<Object, Object> targetDataSources = new HashMap<>();
   public static MultiRoutingDataSource multiRoutingDataSource = new MultiRoutingDataSource();
-  private final String ENTITY_PACKAGE = "com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.entity";
+  private final String ENTITY_PACKAGE = "com.ivoronline.schema.entity";
   
   //=========================================================================================================
   // SCHEMA 1 DATA SOURCE
