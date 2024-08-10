@@ -26,21 +26,6 @@ public class MyController {
   @Autowired @Qualifier("multiRoutingDataSource") MultiRoutingDataSource multiRoutingDataSource;
   
   //=========================================================================================================
-  // MIX STATEMENTS
-  //=========================================================================================================
-  @ResponseBody
-  @GetMapping("/Set")
-  public String set() {
-   
-    Map<Object, Object> targetDataSources = new HashMap<>();
-                        targetDataSources.put(3, dataSource3());
-    multiRoutingDataSource.setTargetDataSources(targetDataSources);
-    
-    return "OK";
-
-  }
-  
-  //=========================================================================================================
   // HELLO
   //=========================================================================================================
   @ResponseBody
@@ -50,6 +35,18 @@ public class MyController {
     Person person = personRepository.save(new Person(0, "John", 33));
     Tenant tenant = tenantRepository.findById(1).get();
     return tenant;
+  }
+  
+  //=========================================================================================================
+  // SET
+  //=========================================================================================================
+  @ResponseBody
+  @GetMapping("/Set")
+  public String set() {
+    Map<Object, Object> targetDataSources = new HashMap<>();
+                        targetDataSources.put(3, dataSource3());
+    multiRoutingDataSource.setTargetDataSources(targetDataSources);
+    return "OK";
   }
   
   //=========================================================================================================
