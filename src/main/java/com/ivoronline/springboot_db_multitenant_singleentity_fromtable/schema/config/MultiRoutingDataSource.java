@@ -1,4 +1,4 @@
-package com.ivoronline.springboot_db_multitenant_dingleentity_shcemaparamtersfromtable.schema.config;
+package com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.config;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 

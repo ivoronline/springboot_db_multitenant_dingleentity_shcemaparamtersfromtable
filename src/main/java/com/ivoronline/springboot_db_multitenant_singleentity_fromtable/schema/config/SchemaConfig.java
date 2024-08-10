@@ -1,8 +1,6 @@
-package com.ivoronline.springboot_db_multitenant_dingleentity_shcemaparamtersfromtable.schema.config;
+package com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.config;
 
-import com.ivoronline.springboot_db_multitenant_dingleentity_shcemaparamtersfromtable.master.repository.TenantRepository;
 import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +21,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-  basePackages            = "com.ivoronline.springboot_db_multitenant_dingleentity_shcemaparamtersfromtable.schema.repository",
+  basePackages            = "com.ivoronline.springboot_db_multitenant_singleentity_fromtable.schema.repository",
   entityManagerFactoryRef = "multiEntityManager",
   transactionManagerRef   = "multiTransactionManager"
 )

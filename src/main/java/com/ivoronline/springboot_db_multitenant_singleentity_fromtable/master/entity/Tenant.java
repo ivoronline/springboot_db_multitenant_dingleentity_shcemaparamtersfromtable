@@ -1,4 +1,4 @@
-package com.ivoronline.springboot_db_multitenant_dingleentity_shcemaparamtersfromtable.master.entity;
+package com.ivoronline.springboot_db_multitenant_singleentity_fromtable.master.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
