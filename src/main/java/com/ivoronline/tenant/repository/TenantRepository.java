@@ -1,6 +1,6 @@
-package com.ivoronline.master.repository;
+package com.ivoronline.tenant.repository;
 
-import com.ivoronline.master.entity.Tenant;
+import com.ivoronline.tenant.entity.Tenant;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TenantRepository extends JpaRepository<Tenant, Integer> { }

@@ -1,4 +1,4 @@
-package com.ivoronline.schema.entity;
+package com.ivoronline.multitenant.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

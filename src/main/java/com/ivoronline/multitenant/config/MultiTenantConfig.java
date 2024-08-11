@@ -1,10 +1,11 @@
-package com.ivoronline.schema.config;
+package com.ivoronline.multitenant.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -21,60 +22,39 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-  basePackages            = "com.ivoronline.schema.repository",
+  basePackages            = "com.ivoronline.multitenant.repository",
   entityManagerFactoryRef = "multiEntityManager",
   transactionManagerRef   = "multiTransactionManager"
 )
-public class SchemaConfig {
+public class MultiTenantConfig {
 
   //PROPERTIES
-  public static Map<Object, Object> targetDataSources = new HashMap<>();
-  public static MultiRoutingDataSource multiRoutingDataSource = new MultiRoutingDataSource();
-  private final String ENTITY_PACKAGE = "com.ivoronline.schema.entity";
+  public static Map<Object, Object>   targetDataSources     = new HashMap<>();
+  public static MultiTenantDataSource multitenantDataSource = new MultiTenantDataSource();
+  private final String ENTITY_PACKAGE = "com.ivoronline.multitenant.entity";
   
   //=========================================================================================================
-  // SCHEMA 1 DATA SOURCE
+  // DEFAULT DATA SOURCE
   //=========================================================================================================
   @Primary
+  @Lazy
   @Bean
-  @ConfigurationProperties("schema1.spring.datasource")
-  public DataSource schema1DataSource() {
-      return DataSourceBuilder.create().type(HikariDataSource.class).build();
-  }
-  
-  //=========================================================================================================
-  // SCHEMA 2 DATA SOURCE
-  //=========================================================================================================
-  @Bean
-  @ConfigurationProperties("schema2.spring.datasource")
-  public DataSource schema2DataSource() {
-      return DataSourceBuilder.create().type(HikariDataSource.class).build();
-  }
-  
-  //=========================================================================================================
-  // SCHEMA 3 DATA SOURCE
-  //=========================================================================================================
-  @Bean
-  @ConfigurationProperties("schema3.spring.datasource")
-  public DataSource schema3DataSource() {
-      return DataSourceBuilder.create().type(HikariDataSource.class).build();
+  @ConfigurationProperties("default.spring.datasource")
+  public DataSource defaultDataSource() {
+    return DataSourceBuilder.create().type(HikariDataSource.class).build();
   }
   
   //=========================================================================================================
   // MULTI ROUTING DATA SOURCE
   //=========================================================================================================
   @Bean
-  public MultiRoutingDataSource multiRoutingDataSource() {
-      
-      targetDataSources.put(1, schema1DataSource());
-      targetDataSources.put(2, schema2DataSource());
-      //targetDataSources.put(3, schema3DataSource());
-      
-      
-                             multiRoutingDataSource.setDefaultTargetDataSource(schema1DataSource());
-                             multiRoutingDataSource.setTargetDataSources(targetDataSources);
+  public MultiTenantDataSource multiRoutingDataSource() {
+    
+    multitenantDataSource.setDefaultTargetDataSource(defaultDataSource());
+    multitenantDataSource.setTargetDataSources(targetDataSources);
 
-      return multiRoutingDataSource;
+    return multitenantDataSource;
+    
   }
   
   //=========================================================================================================
@@ -82,12 +62,12 @@ public class SchemaConfig {
   //=========================================================================================================
   @Bean
   public LocalContainerEntityManagerFactoryBean multiEntityManager() {
-      LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-                                             em.setDataSource(multiRoutingDataSource());
-                                             em.setPackagesToScan(ENTITY_PACKAGE);
-                                             em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-                                             em.setJpaProperties(hibernateProperties());
-      return em;
+    LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+                                           em.setDataSource(multiRoutingDataSource());
+                                           em.setPackagesToScan(ENTITY_PACKAGE);
+                                           em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+                                           em.setJpaProperties(hibernateProperties());
+    return em;
   }
   
   //=========================================================================================================
@@ -95,9 +75,9 @@ public class SchemaConfig {
   //=========================================================================================================
   @Bean
   public PlatformTransactionManager multiTransactionManager() {
-      JpaTransactionManager transactionManager = new JpaTransactionManager();
-                            transactionManager.setEntityManagerFactory(multiEntityManager().getObject());
-      return transactionManager;
+    JpaTransactionManager transactionManager = new JpaTransactionManager();
+                          transactionManager.setEntityManagerFactory(multiEntityManager().getObject());
+    return transactionManager;
   }
   
   //=========================================================================================================
@@ -106,11 +86,11 @@ public class SchemaConfig {
   @Primary
   @Bean
   public LocalSessionFactoryBean dbSessionFactory() {
-      LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
-                              sessionFactoryBean.setDataSource(multiRoutingDataSource());
-                              sessionFactoryBean.setPackagesToScan(ENTITY_PACKAGE);
-                              sessionFactoryBean.setHibernateProperties(hibernateProperties());
-      return sessionFactoryBean;
+    LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
+                            sessionFactoryBean.setDataSource(multiRoutingDataSource());
+                            sessionFactoryBean.setPackagesToScan(ENTITY_PACKAGE);
+                            sessionFactoryBean.setHibernateProperties(hibernateProperties());
+    return sessionFactoryBean;
   }
   
   //=========================================================================================================

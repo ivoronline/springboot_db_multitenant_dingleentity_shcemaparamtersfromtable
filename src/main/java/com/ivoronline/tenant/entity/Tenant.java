@@ -1,4 +1,4 @@
-package com.ivoronline.master.entity;
+package com.ivoronline.tenant.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
