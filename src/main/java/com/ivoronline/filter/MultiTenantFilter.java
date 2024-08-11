@@ -1,9 +1,9 @@
 package com.ivoronline.filter;
 
+import com.ivoronline.multitenant.config.MultiTenantConfig;
 import com.ivoronline.multitenant.config.TenantContext;
 import com.ivoronline.tenant.entity.Tenant;
 import com.ivoronline.tenant.repository.TenantRepository;
-import com.ivoronline.multitenant.config.MultiTenantConfig;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Component
-public class MultitenantFilter extends OncePerRequestFilter {
+public class MultiTenantFilter extends OncePerRequestFilter {
 
   //PROPERTIES
   @Autowired TenantRepository tenantRepository;
