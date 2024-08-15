@@ -1,9 +1,9 @@
-package com.ivoronline.multitenant.filter;
+package com.ivoronline.filter;
 
-import com.ivoronline.multitenant.tenant.config.TenantConfig;
-import com.ivoronline.multitenant.tenant.config.TenantContext;
-import com.ivoronline.multitenant.mastertenant.entity.Tenant;
-import com.ivoronline.multitenant.mastertenant.repository.TenantRepository;
+import com.ivoronline.tenant.config.TenantConfig;
+import com.ivoronline.tenant.config.TenantContext;
+import com.ivoronline.mastertenant.entity.Tenant;
+import com.ivoronline.mastertenant.repository.TenantRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

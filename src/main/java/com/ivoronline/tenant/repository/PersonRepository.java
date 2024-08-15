@@ -1,6 +1,6 @@
-package com.ivoronline.multitenant.tenant.repository;
+package com.ivoronline.tenant.repository;
 
-import com.ivoronline.multitenant.tenant.entity.Person;
+import com.ivoronline.tenant.entity.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PersonRepository extends JpaRepository<Person, Integer> { }

@@ -1,9 +1,9 @@
 package com.ivoronline.controller;
 
-import com.ivoronline.multitenant.mastertenant.repository.TenantRepository;
-import com.ivoronline.multitenant.tenant.config.TenantConfig;
-import com.ivoronline.multitenant.tenant.entity.Person;
-import com.ivoronline.multitenant.tenant.repository.PersonRepository;
+import com.ivoronline.mastertenant.repository.TenantRepository;
+import com.ivoronline.tenant.config.TenantConfig;
+import com.ivoronline.tenant.entity.Person;
+import com.ivoronline.tenant.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.bind.annotation.GetMapping;

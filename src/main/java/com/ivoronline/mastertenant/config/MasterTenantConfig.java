@@ -1,4 +1,4 @@
-package com.ivoronline.multitenant.mastertenant.config;
+package com.ivoronline.mastertenant.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -14,14 +14,14 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(
-  basePackages            = "com.ivoronline.multitenant.mastertenant.repository",
+  basePackages            = "com.ivoronline.mastertenant.repository",
   entityManagerFactoryRef = "masterEntityManager",
   transactionManagerRef   = "masterTransactionManager"
 )
 public class MasterTenantConfig {
 
   //PROPERTIES
-  private final String ENTITY_PACKAGE = "com.ivoronline.multitenant.mastertenant.entity";
+  private final String ENTITY_PACKAGE = "com.ivoronline.mastertenant.entity";
 
   //=========================================================================================================
   // DATA SOURCE
