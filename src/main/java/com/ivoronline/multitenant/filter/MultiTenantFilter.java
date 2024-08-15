@@ -1,9 +1,9 @@
-package com.ivoronline.filter;
+package com.ivoronline.multitenant.filter;
 
-import com.ivoronline.multitenant.config.MultiTenantConfig;
-import com.ivoronline.multitenant.config.TenantContext;
-import com.ivoronline.tenant.entity.Tenant;
-import com.ivoronline.tenant.repository.TenantRepository;
+import com.ivoronline.multitenant.tenant.config.TenantConfig;
+import com.ivoronline.multitenant.tenant.config.TenantContext;
+import com.ivoronline.multitenant.mastertenant.entity.Tenant;
+import com.ivoronline.multitenant.mastertenant.repository.TenantRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,11 +33,8 @@ public class MultiTenantFilter extends OncePerRequestFilter {
     loadTenants();
 
     //SET TENANT
-    String  tenantString = request.getParameter("tenant");
-    if (tenantString != null) {
-      Integer tenant = Integer.valueOf(tenantString);
-      TenantContext.setTenant(tenant);
-    }
+    String  tenant = request.getParameter("tenant");
+    TenantContext.setTenant(tenant);
     
     //CALL NEXT FILTER
     chain.doFilter(request, response);
@@ -50,24 +47,23 @@ public class MultiTenantFilter extends OncePerRequestFilter {
   public void loadTenants() {
   
     //GUARD AGAINST: ALREADY LOADED
-    if(MultiTenantConfig.targetDataSources.size() != 0) { return; }
+    if(TenantConfig.targetDataSources.size() != 0) { return; }
     
     //LOAD TENANTS
     List<Tenant> tenants = tenantRepository.findAll();
-    int index = 1;
     for(Tenant tenant : tenants) {
       String     name       = tenant.getName();
       String     password   = tenant.getPassword();
       DataSource datasource = createDataSource(name, password);
-      MultiTenantConfig.targetDataSources.put(index++, datasource);
+      TenantConfig.targetDataSources.put(name, datasource);
     }
     
     //SET DEFAULT DATA SOURCE
-    DataSource defaultDataSource = (DataSource) MultiTenantConfig.targetDataSources.get(0);
-    MultiTenantConfig.multitenantDataSource.setDefaultTargetDataSource(defaultDataSource);
+    DataSource defaultDataSource = (DataSource) TenantConfig.targetDataSources.get(0);
+    TenantConfig.tenantDataSource.setDefaultTargetDataSource(defaultDataSource);
     
     //REFRESH DATA SOURCES
-    MultiTenantConfig.multitenantDataSource.afterPropertiesSet();
+    TenantConfig.tenantDataSource.afterPropertiesSet();
     
   }
   

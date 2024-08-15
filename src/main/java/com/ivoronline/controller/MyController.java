@@ -1,9 +1,9 @@
 package com.ivoronline.controller;
 
-import com.ivoronline.tenant.repository.TenantRepository;
-import com.ivoronline.multitenant.config.MultiTenantConfig;
-import com.ivoronline.multitenant.entity.Person;
-import com.ivoronline.multitenant.repository.PersonRepository;
+import com.ivoronline.multitenant.mastertenant.repository.TenantRepository;
+import com.ivoronline.multitenant.tenant.config.TenantConfig;
+import com.ivoronline.multitenant.tenant.entity.Person;
+import com.ivoronline.multitenant.tenant.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,8 +37,8 @@ public class MyController {
   @GetMapping("/AddTenant")
   public String addTenant() {
     DataSource dataSource = createDataSource();
-    MultiTenantConfig.targetDataSources.put(3, dataSource);
-    MultiTenantConfig.multitenantDataSource.afterPropertiesSet();
+    TenantConfig.targetDataSources.put("SCHEMA3", dataSource);
+    TenantConfig.tenantDataSource.afterPropertiesSet();
     return "OK";
   }
 

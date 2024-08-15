@@ -1,4 +1,4 @@
-package com.ivoronline.multitenant.entity;
+package com.ivoronline.multitenant.mastertenant.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Person {
+public class Tenant {
 
   //PROPERTIES
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   public Integer Id;
   public String  name;
-  public Integer age;
+  public String  password;
 
 }

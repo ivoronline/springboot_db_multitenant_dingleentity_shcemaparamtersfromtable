@@ -1,4 +1,4 @@
-package com.ivoronline.multitenant.config;
+package com.ivoronline.multitenant.tenant.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -22,16 +22,16 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-  basePackages            = "com.ivoronline.multitenant.repository",
-  entityManagerFactoryRef = "multiEntityManager",
-  transactionManagerRef   = "multiTransactionManager"
+  basePackages            = "com.ivoronline.multitenant.tenant.repository",
+  entityManagerFactoryRef = "tenantEntityManager",
+  transactionManagerRef   = "tenantTransactionManager"
 )
-public class MultiTenantConfig {
+public class TenantConfig {
 
   //PROPERTIES
-  public static Map<Object, Object>   targetDataSources     = new HashMap<>();
-  public static MultiTenantDataSource multitenantDataSource = new MultiTenantDataSource();
-  private final String ENTITY_PACKAGE = "com.ivoronline.multitenant.entity";
+  public static Map<Object, Object> targetDataSources = new HashMap<>();
+  public static TenantDataSource    tenantDataSource  = new TenantDataSource();
+  private final String              ENTITY_PACKAGE    = "com.ivoronline.multitenant.tenant.entity";
   
   //=========================================================================================================
   // DEFAULT DATA SOURCE
@@ -45,15 +45,15 @@ public class MultiTenantConfig {
   }
   
   //=========================================================================================================
-  // MULTI ROUTING DATA SOURCE
+  // TENANT DATA SOURCE
   //=========================================================================================================
   @Bean
-  public MultiTenantDataSource multiRoutingDataSource() {
+  public TenantDataSource tenantDataSource() {
     
-    multitenantDataSource.setDefaultTargetDataSource(defaultDataSource());
-    multitenantDataSource.setTargetDataSources(targetDataSources);
+    tenantDataSource.setDefaultTargetDataSource(defaultDataSource());
+    tenantDataSource.setTargetDataSources(targetDataSources);
 
-    return multitenantDataSource;
+    return tenantDataSource;
     
   }
   
@@ -61,9 +61,9 @@ public class MultiTenantConfig {
   // ENTITY MANAGER FACTORY BEAN
   //=========================================================================================================
   @Bean
-  public LocalContainerEntityManagerFactoryBean multiEntityManager() {
+  public LocalContainerEntityManagerFactoryBean tenantEntityManager() {
     LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-                                           em.setDataSource(multiRoutingDataSource());
+                                           em.setDataSource(tenantDataSource());
                                            em.setPackagesToScan(ENTITY_PACKAGE);
                                            em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
                                            em.setJpaProperties(hibernateProperties());
@@ -74,9 +74,9 @@ public class MultiTenantConfig {
   // TRANSACTION MANAGER
   //=========================================================================================================
   @Bean
-  public PlatformTransactionManager multiTransactionManager() {
+  public PlatformTransactionManager tenantTransactionManager() {
     JpaTransactionManager transactionManager = new JpaTransactionManager();
-                          transactionManager.setEntityManagerFactory(multiEntityManager().getObject());
+                          transactionManager.setEntityManagerFactory(tenantEntityManager().getObject());
     return transactionManager;
   }
   
@@ -87,7 +87,7 @@ public class MultiTenantConfig {
   @Bean
   public LocalSessionFactoryBean dbSessionFactory() {
     LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
-                            sessionFactoryBean.setDataSource(multiRoutingDataSource());
+                            sessionFactoryBean.setDataSource(tenantDataSource());
                             sessionFactoryBean.setPackagesToScan(ENTITY_PACKAGE);
                             sessionFactoryBean.setHibernateProperties(hibernateProperties());
     return sessionFactoryBean;

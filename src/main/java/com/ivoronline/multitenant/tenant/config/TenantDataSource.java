@@ -1,8 +1,8 @@
-package com.ivoronline.multitenant.config;
+package com.ivoronline.multitenant.tenant.config;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
-public class MultiTenantDataSource extends AbstractRoutingDataSource {
+public class TenantDataSource extends AbstractRoutingDataSource {
 
   //=========================================================================================================
   // DETERMINE CURRENT LOOKUP KEY
