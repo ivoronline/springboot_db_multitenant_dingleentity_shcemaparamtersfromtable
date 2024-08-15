@@ -17,8 +17,8 @@ public class Person {
   //PROPERTIES
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  public Integer Id;
-  public String  name;
-  public Integer age;
+  private Integer Id;
+  private String  name;
+  private Integer age;
 
 }

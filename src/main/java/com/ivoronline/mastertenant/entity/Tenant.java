@@ -17,8 +17,8 @@ public class Tenant {
   //PROPERTIES
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  public Integer Id;
-  public String  name;
-  public String  password;
+  private Integer Id;
+  private String  name;
+  private String  password;
 
 }
